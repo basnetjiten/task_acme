@@ -1,34 +1,41 @@
 import 'package:clean_framework/clean_framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:task_acme/lyrics_finder/bloc/lyric_bloc.dart';
 import 'package:task_acme/lyrics_finder/ui/lyric_search_feature_widget.dart';
 import 'package:task_acme/lyrics_finder/ui/lyric_search_presenter.dart';
 import 'package:task_acme/lyrics_finder/ui/lyric_search_screen.dart';
-import 'package:task_acme/routes.dart';
 
-void main(){
-  TestWidgetsFlutterBinding.ensureInitialized();
-Widget tester =MediaQuery(
-  data: new MediaQueryData(),
-  child: CFRouterScope(
-    routeGenerator: LyricFinderRouter.generate,
-    initialRoute: LyricFinderRouter.initialRoute,
-    builder: (context) => MaterialApp.router(
-      routeInformationParser: CFRouteInformationParser(),
-      routerDelegate: CFRouterDelegate(context),
-      debugShowCheckedModeBanner: false,
+void main() {
+  testWidgets('Lyric Search Widget Test', (tester) async {
+    final testWidget = MaterialApp(
+        home: BlocProvider<LyricSearchBloc>(
+            create: (_) => LyricSearchBloc(), child: LyricsFeatureWidget()));
 
-)));
-  testWidgets('Lyric Finder App', (WidgetTester widgetTester)async{
-    await widgetTester.pumpWidget(tester);
-    expect(find.byType(LyricsFeatureWidget), findsOneWidget);
+    await tester.pumpWidget(testWidget);
+    await tester.pump(Duration(milliseconds: 1000));
+    await tester.enterText(find.byType(TextFormField), 'HELLO');
+    /*final SearchContainerState myWidgetState = tester.state(find.byType(SearchContainer));
+    myWidgetState.setState(() {
+      myWidgetState.folded=true;
+    });*/
     expect(find.byType(LyricsFinderPresenter), findsOneWidget);
-    expect(find.byType(LyricSearchScreen), findsNothing);
+    expect(find.byType(LyricSearchScreen), findsOneWidget);
+    expect(find.byType(SearchContainer),findsOneWidget);
+    expect(find.widgetWithText(TextFormField,'HELLO'),findsOneWidget);
+    //final childFinder = find.descendant(of: find.byType(SearchContainer), matching: find.byType(TextFormField));
+    //expect(childFinder, findsOneWidget);
+   // expect(find.byKey(ValueKey("lyric_key")),findsOneWidget);
+   // await tester.enterText(find.byType(TextFormField), 'HELLO');
 
+
+
+
+    
+    
   });
-
-
-
-
-
 }
+
+
+
+

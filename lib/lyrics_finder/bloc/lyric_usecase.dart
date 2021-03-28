@@ -25,11 +25,9 @@ class LyricSearchUseCase extends UseCase {
 
       //if null create one and register in repository
       final newLyricEntity = LyricSearchEntity();
-      //no scope found for for that entity
+      //create new scope if no scope found for for that entity
       _scope = _lyricAppLocator.repository.create<LyricSearchEntity>(newLyricEntity,_notifySubscribers);
       _viewModelCallBack(buildViewModelForLocalUpdate(newLyricEntity));
-
-      //create new scope for that entity
 
     } else {
       print("flowwww");

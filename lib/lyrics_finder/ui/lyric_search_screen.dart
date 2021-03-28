@@ -35,11 +35,11 @@ class SearchContainer extends StatefulWidget {
   const SearchContainer({this.viewModel,this.onTapSubmit,this.onSearchInputChange});
 
   @override
-  _SearchContainerState createState() => _SearchContainerState();
+  SearchContainerState createState() => SearchContainerState();
 }
 
-class _SearchContainerState extends State<SearchContainer> {
-  bool _folded = true;
+class SearchContainerState extends State<SearchContainer> {
+  bool folded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _SearchContainerState extends State<SearchContainer> {
           SizedBox(height: MediaQuery.of(context).size.height/3,),
           AnimatedContainer(
               duration: Duration(milliseconds: 400),
-              width: _folded ? 56 : 200,
+              width: folded ? 56 : 200,
               height: 56,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(32),
@@ -60,8 +60,8 @@ class _SearchContainerState extends State<SearchContainer> {
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.only(left: 16),
-                    child: !_folded
-                        ? _textFormField(Key('lyric_key'), 'Search lyrics',
+                    child: !folded
+                        ? _textFormField(ValueKey('lyric_key'), 'Search lyrics',
                             widget.onTapSubmit,
                             widget.onSearchInputChange, TextInputType.text)
 /*TextField(
@@ -78,21 +78,21 @@ class _SearchContainerState extends State<SearchContainer> {
                     type: MaterialType.transparency,
                     child: InkWell(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(_folded ? 32 : 0),
+                        topLeft: Radius.circular(folded ? 32 : 0),
                         topRight: Radius.circular(32),
-                        bottomLeft: Radius.circular(_folded ? 32 : 0),
+                        bottomLeft: Radius.circular(folded ? 32 : 0),
                         bottomRight: Radius.circular(32),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Icon(
-                          _folded ? Icons.search : Icons.close,
+                          folded ? Icons.search : Icons.close,
                           color: Colors.blue[900],
                         ),
                       ),
                       onTap: () {
                         setState(() {
-                          _folded = !_folded;
+                          folded = !folded;
                         });
                       },
                     ),
